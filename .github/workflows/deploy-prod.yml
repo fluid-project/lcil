@@ -1,10 +1,10 @@
-name: Deploy dev
+name: Deploy prod
 
 on:
   workflow_dispatch:
   push:
     branches:
-      - dev
+      - production
 
 jobs:
   deploy:
@@ -12,7 +12,7 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    concurrency: deploy-dev
+    concurrency: deploy-prod
 
     steps:
       - name: Start deployment
@@ -21,7 +21,7 @@ jobs:
         with:
           step: start
           token: ${{ secrets.GITHUB_TOKEN }}
-          env: dev
+          env: production
 
       - name: Deploy stack
         uses: appleboy/ssh-action@v0.1.5
@@ -35,9 +35,9 @@ jobs:
           proxy_key: ${{ secrets.SSH_PROXY_PRIVATE_KEY }}
           proxy_port: ${{ secrets.SSH_PROXY_PORT }}
           script: |
-            cd /srv/fluid-lcil-dev && \
+            cd /srv/fluid-lcil-prod && \
             git checkout -f && \
-            git checkout dev && \
+            git checkout production && \
             git pull && \
             ./bin/deploy-cloud.sh
 
@@ -45,7 +45,7 @@ jobs:
         run: sleep 15
 
       - name: Smoke test
-        run: curl --location --no-buffer --retry 120 --retry-delay 1 https://lcil-dev.fluidproject.org
+        run: curl --location --no-buffer --retry 120 --retry-delay 1 https://lcil-prod.fluidproject.org
 
       - name: Update deployment status
         uses: bobheadxi/deployments@v0.6.0
@@ -55,4 +55,4 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           status: ${{ job.status }}
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-          env_url: https://lcil-dev.fluidproject.org
+          env_url: https://lcil-prod.fluidproject.org

@@ -30,7 +30,7 @@ jobs:
             git checkout -f && \
             git checkout dev && \
             git pull && \
-            ./bin/refresh-dev.sh
+            ./bin/refresh-cloud.sh
 
       - name: Wait
         run: sleep 15
