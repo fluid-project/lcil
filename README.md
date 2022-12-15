@@ -1,3 +1,5 @@
+_**THIS PROJECT HAS BEEN ARCHIVED**_
+
 # Legal Capacity Inclusion Lens
 
 [![codecov code coverage badge](https://codecov.io/gh/fluid-project/lcil/branch/main/graph/badge.svg?token=XZ7R5ISIBR)](https://codecov.io/gh/fluid-project/lcil)
